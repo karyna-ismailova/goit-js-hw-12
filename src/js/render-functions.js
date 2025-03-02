@@ -6,9 +6,12 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 const lightbox = new SimpleLightbox('.gallery a');
 const loadingMsg = document.querySelector('.loader');
 
-export function renderGallery(images) {
+export function renderGallery(images, append = false) {
     const gallery = document.querySelector('.gallery');
-    gallery.innerHTML = images.map(image => `
+     if (!append) {
+        gallery.innerHTML = '';
+    }
+    const markup = images.map(image => `
         <li class = "list">
         <a href="${image.largeImageURL}" class="gallery-item">
             <img src="${image.webformatURL}" alt="${image.tags}">
@@ -20,6 +23,8 @@ export function renderGallery(images) {
             </ul>
         </a></li>
     `).join('');
+    gallery.insertAdjacentHTML('beforeend', markup); 
+      const lightbox = new SimpleLightbox('.gallery a');
     lightbox.refresh();
 }
 

@@ -5,9 +5,9 @@ let currentQuery = '';
 const loadMoreBtn = document.querySelector('.load-more');
 loadMoreBtn.style.display = 'none';
 
-document.querySelector('.search-form').addEventListener('submit', async function (event) {
-    event.preventDefault();
-    const query = event.target.elements.searchQuery.value.trim();
+document.querySelector('.search-form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const query = e.target.elements.searchQuery.value.trim();
     
     if (!query) {
         showErrorMessage();
@@ -27,7 +27,7 @@ document.querySelector('.search-form').addEventListener('submit', async function
         const { images, totalHits } = await fetchImages(query, currentPage);
         hideLoader();
         if (images.length > 0) {
-            renderGallery(images);
+            renderGallery(images, false);
             if (totalHits > currentPage * 40) {
                 loadMoreBtn.style.display = 'block';
             } else {
@@ -38,6 +38,7 @@ document.querySelector('.search-form').addEventListener('submit', async function
             
         } else {
             showErrorMessage();
+            loadMoreBtn.style.display = 'none';
         }
     } catch (error) {
         hideLoader();
